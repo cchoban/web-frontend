@@ -1,7 +1,7 @@
-export default function({ store, redirect }) {
+export default function ({ store, redirect }) {
   if (!store.getters['localStorage/isAuthenticated']) {
     return redirect('/')
-  }else {
+  } else {
     store.state.token = 'qweqwe'
   }
 }

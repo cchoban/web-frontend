@@ -1,10 +1,10 @@
 <template>
   <div class="ui container">
-    <div class="ui segment loading" v-if="$store.state.loading">
+    <div v-if="$store.state.loading" class="ui segment loading">
       <br>
     </div>
     <div v-else>
-      <Pagination extra_queries/>
+      <Pagination extra_queries />
       <table class="ui table">
         <thead>
           <tr>
@@ -25,7 +25,9 @@
                   <div class="content package-specifics">
                     {{ pack.packageName }}
                     <div class="sub header">
-                      <a href="#" class="removelink">{{ pack.packageArgs.description }}</a>
+                      <a href="#" class="removelink">
+                        {{ pack.packageArgs.description }}
+                      </a>
                     </div>
                   </div>
                 </h4>
@@ -39,46 +41,46 @@
 </template>
 
 <script>
-import Pagination from "@/components/Packages/Pagination.vue";
+import Pagination from '@/components/Packages/Pagination.vue'
 
 export default {
   components: {
     Pagination
   },
-  data: function() {
+  data: function () {
     return {
       searchKey: this.$store.searh_key
-    };
+    }
   },
   mounted() {
-    this.getPackages();
+    this.getPackages()
   },
   methods: {
     getPackages() {
       const url = `${this.$store.state.api_urls.packages}/?search=${
         this.searchKey
-      }`;
+      }`
       this.$axios
         .get(url)
-        .then(response => {
-          this.packages = response.data.results;
-          this.count = response.data.count;
+        .then((response) => {
+          this.packages = response.data.results
+          this.count = response.data.count
 
           const data = {
             packages: response.data.results,
             count: response.data.count,
             nextUrl: response.data.nextUrl,
             previousUrl: response.data.previousUrl
-          };
+          }
 
-          this.$store.commit("updatePackagePage", data);
+          this.$store.commit('updatePackagePage', data)
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

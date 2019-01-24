@@ -4,20 +4,26 @@
     role="navigation"
     class="ui pagination pointing secondary menu"
   >
-    <a class="item" v-if="previousUrl" @click="getPackages(previousUrl)">⟨</a>
+    <a v-if="previousUrl" class="item" @click="getPackages(previousUrl)">
+      ⟨
+    </a>
     <a
+      v-for="(num, pages) in countPageNumber"
       class="item"
       :class="{'active': pages == currentPage}"
-      v-for="(num, pages) in countPageNumber"
       @click="getPackages(`${$store.state.api_urls.packages}/?offset=${num+extra_queries}`, pages)"
-    >{{ pages }}</a>
-    <a class="item" v-if="nextUrl" @click="getPackages(nextUrl)">⟩</a>
+    >
+      {{ pages }}
+    </a>
+    <a v-if="nextUrl" class="item" @click="getPackages(nextUrl)">
+      ⟩
+    </a>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["extra_queries"],
+  props: ['extraQueries'],
   data() {
     return {
       packages: null,
@@ -26,58 +32,58 @@ export default {
       count: null,
       currentPage: 1,
       offset: null,
-      request_url: ""
-    };
-  },
-  mounted() {
-    this.packages = this.$store.state.package_page.packages;
-    this.nextUrl = this.$store.state.package_page.nextUrl;
-    this.previousUrl = this.$store.state.package_page.previousUrl;
-    this.count = this.$store.state.package_page.count;
+      request_url: ''
+    }
   },
 
   computed: {
     countPageNumber() {
-      const totalPageNumber = Math.ceil(this.count / 15);
-      const pages = {};
-      let offset = -10;
-      let page = 1;
+      const totalPageNumber = Math.ceil(this.count / 15)
+      const pages = {}
+      let offset = -10
+      let page = 1
       for (page; page <= totalPageNumber; page++) {
-        pages[page] = offset += 10;
+        pages[page] = offset += 10
       }
 
-      return pages;
+      return pages
     }
+  },
+  mounted() {
+    this.packages = this.$store.state.package_page.packages
+    this.nextUrl = this.$store.state.package_page.nextUrl
+    this.previousUrl = this.$store.state.package_page.previousUrl
+    this.count = this.$store.state.package_page.count
   },
   methods: {
     getPackages(url, pageNumber) {
       this.$axios
         .get(url)
-        .then(response => {
-          this.packages = response.data.results;
-          this.count = response.data.count;
-          this.nextUrl = response.data.next;
-          this.previousUrl = response.data.previous;
+        .then((response) => {
+          this.packages = response.data.results
+          this.count = response.data.count
+          this.nextUrl = response.data.next
+          this.previousUrl = response.data.previous
 
           const data = {
             packages: response.data.results,
             count: response.data.count,
             nextUrl: response.data.nextUrl,
             previousUrl: response.data.previousUrl
-          };
+          }
 
-          this.$store.commit("updatePackagePage", data);
-          this.pushState(pageNumber);
+          this.$store.commit('updatePackagePage', data)
+          this.pushState(pageNumber)
         })
-        .catch(response => {
-          console.log("error");
-        });
+        .catch((response) => {
+          console.log('error')
+        })
     },
     pushState(pageNumber) {
-      this.currentPage = pageNumber;
+      this.currentPage = pageNumber
     }
   }
-};
+}
 </script>
 
 <style>

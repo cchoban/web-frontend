@@ -1,44 +1,57 @@
 <template>
-
   <div>
     <!-- <Packages v-if="this.$store.state.search_key.length > 0"></Packages> -->
 
-    <FeaturedToday/>
+    <FeaturedToday />
 
     <div class="ui three column container fluid content-section">
-      <PackagesSection/>
-      <PopularSection/>
+      <PackagesSection />
+      <PopularSection />
       <div class="third-section column twentyfivepx clearfix">
         <a
           href="#"
-          class="header-text bold removelink">
-          <h2 class="left-floated">Discover</h2>
-          <label class="view-all unbold right-floated"> View all
-            <i class="angle right icon"/>
+          class="header-text bold removelink"
+        >
+          <h2 class="left-floated">
+            Discover
+          </h2>
+          <label class="view-all unbold right-floated">
+            View all
+            <i class="angle right icon" />
           </label>
         </a>
         <div class="inner-section">
           <div class="ui segments panel">
             <div class="ui segment panel-header">
-              <p class="bold">Random Packages</p>
+              <p class="bold">
+                Random Packages
+              </p>
             </div>
             <div class="ui secondary segment panel-content">
               <div v-if="loading">
-                <div class="ui attached segment loading"><br></div>
+                <div class="ui attached segment loading">
+                  <br>
+                </div>
               </div>
               <div
-                class="ui attached segment listings"
                 v-for="pack in discoverPackages.slice(0, 5)"
-                @click="showPage(pack.packageName, pack.id)">
-                <div class="topla" >
+                class="ui attached segment listings"
+                @click="showPage(pack.packageName, pack.id)"
+              >
+                <div class="topla">
                   <span>
                     <img
                       class="ui avatar image remove-circle"
                       :src="$store.state.api_urls.home+pack.server.icon"
-                      alt="">
+                      alt=""
+                    >
                   </span>
-                  <span class="text">{{ pack.packageArgs.softwareName }}</span>
-                  <span class="right-floated day"><timeago :datetime="pack.updated_at"/></span>
+                  <span class="text">
+                    {{ pack.packageArgs.softwareName }}
+                  </span>
+                  <span class="right-floated day">
+                    <timeago :datetime="pack.updated_at" />
+                  </span>
                 </div>
               </div>
             </div>
@@ -46,7 +59,8 @@
               <a class="removelink loadMoreBtn">
                 <i
                   class="angle down icon light"
-                  style="font-size:20px;margin:0 auto"/>
+                  style="font-size:20px;margin:0 auto"
+                />
               </a>
             </div>
           </div>
@@ -58,18 +72,17 @@
 </template>
 
 <script>
-import FeaturedToday from '@/components/Home/FeaturedToday.part.vue';
-import PopularSection from '@/components/Home/PopularSection.part.vue';
-import PackagesSection from '@/components/Home/PackagesSection.part.vue';
-
+import FeaturedToday from '@/components/Home/FeaturedToday.part.vue'
+import PopularSection from '@/components/Home/PopularSection.part.vue'
+import PackagesSection from '@/components/Home/PackagesSection.part.vue'
 
 export default {
-  props: ['maxentry'],
   components: {
     FeaturedToday,
     PopularSection,
-    PackagesSection,
+    PackagesSection
   },
+  props: ['maxentry'],
   data() {
     return {
       message: null,
@@ -80,63 +93,63 @@ export default {
       packageId: null,
       packages: [],
       discoverPackages: [],
-      loading: true,
-    };
+      loading: true
+    }
   },
 
   computed: {
     countPageNumber() {
-      const totalPageNumber = Math.ceil(this.count / this.maxentry);
+      const totalPageNumber = Math.ceil(this.count / this.maxentry)
 
-      const pages = {};
-      let offset = -10;
+      const pages = {}
+      let offset = -10
       for (let page = 1; page <= totalPageNumber; page++) {
-        pages[page] = offset += 10;
+        pages[page] = offset += 10
       }
-      return pages;
-    },
+      return pages
+    }
   },
   mounted() {
-    this.getDiscover();
-    this.countPageNumber;
-    $('.root').addClass('index');
+    this.getDiscover()
+    this.countPageNumber
+    $('.root').addClass('index')
   },
 
   methods: {
     getDiscover: function name() {
-      const url = this.$store.state.api_urls.packages;
+      const url = this.$store.state.api_urls.packages
       this.$axios
         .get(url)
         .then((response) => {
-          this.packages = response.data;
-          this.discoverPackages = this.shuffleArray(response.data.results);
-          this.count = response.data.count;
-          this.nextUrl = response.data.next;
-          this.previousUrl = response.data.previous;
-          this.loading = false;
+          this.packages = response.data
+          this.discoverPackages = this.shuffleArray(response.data.results)
+          this.count = response.data.count
+          this.nextUrl = response.data.next
+          this.previousUrl = response.data.previous
+          this.loading = false
         })
         .catch((err) => {
-          this.loading = false;
-          console.log(err);
-        });
+          this.loading = false
+          console.log(err)
+        })
     },
     showPage(packageName, packageId) {
-      this.$router.push(`/${packageName}`);
+      this.$router.push(`/${packageName}`)
     },
     shuffleArray(sourceArray) {
       for (let i = 0; i < sourceArray.length - 1; i++) {
-        const j = i + Math.floor(Math.random() * (sourceArray.length - i));
+        const j = i + Math.floor(Math.random() * (sourceArray.length - i))
 
-        const temp = sourceArray[j];
-        sourceArray[j] = sourceArray[i];
-        sourceArray[i] = temp;
+        const temp = sourceArray[j]
+        sourceArray[j] = sourceArray[i]
+        sourceArray[i] = temp
       }
-      return sourceArray;
+      return sourceArray
     },
     category_url(category_name) {
-      const slugged = Vue.options.filters.slugify(category_name);
-      return `/packages/category/${slugged}`;
-    },
-  },
-};
+      const slugged = Vue.options.filters.slugify(category_name)
+      return `/packages/category/${slugged}`
+    }
+  }
+}
 </script>

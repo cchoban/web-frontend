@@ -1,7 +1,7 @@
-const pkg = require("./package");
+const pkg = require('./package')
 
 module.exports = {
-  mode: "universal",
+  mode: 'universal',
 
   /*
    ** Headers of the page
@@ -9,17 +9,17 @@ module.exports = {
   head: {
     title: pkg.name,
     meta: [
-      { charset: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: pkg.description }
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: pkg.description }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
 
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: "#fff" },
+  loading: { color: '#fff' },
 
   /*
    ** Global CSS
@@ -30,10 +30,10 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    "~plugins/filters.js",
-    "~plugins/vue-timeago.js",
-    "~plugins/vue-disqus.js",
-    "~plugins/helpers.js"
+    '~plugins/filters.js',
+    '~plugins/vue-timeago.js',
+    '~plugins/vue-disqus.js',
+    '~plugins/helpers.js'
   ],
 
   /*
@@ -41,15 +41,15 @@ module.exports = {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    "@nuxtjs/axios",
-    "nuxt-vuex-localstorage"
+    '@nuxtjs/axios',
+    'nuxt-vuex-localstorage'
   ],
   /*
    ** Axios module configuration
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: "https://choban.app/api/"
+    baseURL: 'https://choban.app/api/'
   },
 
   /*
@@ -73,7 +73,7 @@ module.exports = {
   },
 
   env: {
-    baseUrl: "https://choban.app",
-    disqusShortname: "choban"
+    baseUrl: 'https://choban.app',
+    disqusShortname: 'choban'
   }
-};
+}

@@ -4,7 +4,6 @@
   </div>
 </template>
 
-
 <style lang="scss" scoped>
 .terminal {
   width: 300px;
@@ -23,7 +22,6 @@
 
 <script>
 export default {
-  props: ['packagename'],
-};
+  props: ['packagename']
+}
 </script>
-

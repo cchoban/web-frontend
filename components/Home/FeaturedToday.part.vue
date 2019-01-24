@@ -8,17 +8,22 @@
       <div class="featured-item-list">
         <div
           v-for="pack in popularPackages"
-          v-if="!loading">
+          v-if="!loading"
+        >
           <nuxt-link
             :to="'/'+pack.packageName"
             class="featured-item"
-            :style='`background-image: linear-gradient(to top, black, transparent), url("${$store.state.api_urls.home+pack.server.icon}")`'>
+            :style="`background-image: linear-gradient(to top, black, transparent), url(&quot;${$store.state.api_urls.home+pack.server.icon}&quot;)`"
+          >
             <h1> {{ pack.packageArgs.softwareName }} </h1>
-            <p/>
+            <p />
             <label>
               <a
                 :href="category_url(pack.category_name)"
-                class="removelink addCatUrl">{{ pack.category_name }}</a>
+                class="removelink addCatUrl"
+              >
+                {{ pack.category_name }}
+              </a>
             </label>
           </nuxt-link>
         </div>
@@ -32,31 +37,31 @@ export default {
   data() {
     return {
       loading: true,
-      popularPackages: {},
-    };
+      popularPackages: {}
+    }
   },
   mounted() {
-    this.getPopular();
+    this.getPopular()
   },
   methods: {
     category_url(category_name) {
-      const slugged = this.$options.filters.slugify(category_name);
-      return `/packages/category/${slugged}`;
+      const slugged = this.$options.filters.slugify(category_name)
+      return `/packages/category/${slugged}`
     },
     getPopular() {
-      const url = `${this.$store.state.api_urls.packages}?ordering=-download_count&showcase=true`;
+      const url = `${this.$store.state.api_urls.packages}?ordering=-download_count&showcase=true`
       this.$axios
         .get(url)
         .then((response) => {
-          this.popularPackages = response.data.results.slice(0, 10);
-          this.loading = false;
+          this.popularPackages = response.data.results.slice(0, 10)
+          this.loading = false
         })
         .catch((err) => {
-          console.log(err);
-        });
-    },
-  },
-};
+          console.log(err)
+        })
+    }
+  }
+}
 </script>
 
 <style>

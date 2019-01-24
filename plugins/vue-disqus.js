@@ -1,4 +1,4 @@
-import Vue from "vue";
-import disqus from "vue-disqus";
+import Vue from 'vue'
+import disqus from 'vue-disqus'
 
-Vue.use(disqus);
+Vue.use(disqus)

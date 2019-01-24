@@ -1,10 +1,10 @@
 <template>
   <div class="ui container">
-    <div class="ui segment loading" v-if="$store.state.loading">
+    <div v-if="$store.state.loading" class="ui segment loading">
       <br>
     </div>
     <div v-else>
-      <Pagination extra_queries/>
+      <Pagination extra_queries />
       <table class="ui table">
         <thead>
           <tr>
@@ -25,7 +25,9 @@
                   <div class="content package-specifics">
                     {{ pack.packageName }}
                     <div class="sub header">
-                      <a href="#" class="removelink">{{ pack.packageArgs.description }}</a>
+                      <a href="#" class="removelink">
+                        {{ pack.packageArgs.description }}
+                      </a>
                     </div>
                   </div>
                 </h4>
@@ -39,38 +41,38 @@
 </template>
 
 <script>
-import Pagination from "@/components/Packages/Pagination.vue";
-import axios from "axios";
-const https = require("https");
+import Pagination from '@/components/Packages/Pagination.vue'
+import axios from 'axios'
+const https = require('https')
 
 export default {
   components: {
     Pagination
   },
   async asyncData({ store, params }) {
-    //FIXME: Dangerous!
+    // FIXME: Dangerous!
     const config = {
       httpsAgent: new https.Agent({ rejectUnauthorized: false })
-    };
-    const url = store.state.api_urls.packages;
+    }
+    const url = store.state.api_urls.packages
 
     await axios
       .get(url, config)
-      .then(response => {
+      .then((response) => {
         const data = {
           packages: response.data.results,
           count: response.data.count,
           nextUrl: response.data.nextUrl,
           previousUrl: response.data.previousUrl
-        };
+        }
 
-        store.commit("updatePackagePage", data);
+        store.commit('updatePackagePage', data)
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch((err) => {
+        console.log(err)
+      })
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
