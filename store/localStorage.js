@@ -32,7 +32,7 @@ export const actions = {
 };
 
 export const getters = {
-  isAuthenticated: state => !!state.auth.token,
+  isAuthenticated: state => state.auth.token ? true : false,
   authStatus: state => state.auth.status,
   userDetails: state => state.user
 };
