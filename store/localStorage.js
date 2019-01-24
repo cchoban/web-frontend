@@ -28,11 +28,18 @@ export const actions = {
           reject(err);
         });
     });
+  },
+  auth_logout({ commit }) {
+    return new Promise((resolve, reject) => {
+      this.$axios.setToken("");
+      commit("logout");
+      resolve();
+    });
   }
 };
 
 export const getters = {
-  isAuthenticated: state => state.auth.token ? true : false,
+  isAuthenticated: state => (state.auth.token ? true : false),
   authStatus: state => state.auth.status,
   userDetails: state => state.user
 };
@@ -44,5 +51,8 @@ export const mutations = {
   },
   auth_error: state => {
     state.auth.status = "error";
+  },
+  logout: state => {
+    state.auth = {};
   }
 };
