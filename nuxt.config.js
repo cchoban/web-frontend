@@ -32,7 +32,8 @@ module.exports = {
   plugins: [
     "~plugins/filters.js",
     "~plugins/vue-timeago.js",
-    "~plugins/vue-disqus.js"
+    "~plugins/vue-disqus.js",
+    "~plugins/helpers.js"
   ],
 
   /*

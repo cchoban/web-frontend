@@ -95,6 +95,11 @@ export default {
   components: {
     CommandLine
   },
+  head() {
+    return {
+      title: this.title
+    };
+  },
   data() {
     return {
       pack: [],
@@ -102,7 +107,8 @@ export default {
       loading: true,
       isPage: false,
       active: false,
-      url: ""
+      url: "",
+      title: `${this.$capitalize(this.$route.params.packageName)} | Choban `
     };
   },
   async asyncData({ store, params }) {
@@ -114,6 +120,7 @@ export default {
       `${store.state.api_urls.packages}/?search=${params.packageName}`,
       config
     );
+
     return { pack: data.results[0] };
   },
   methods: {
