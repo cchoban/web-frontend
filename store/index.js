@@ -24,7 +24,10 @@ export const state = () => ({
 export const mutations = {
   updatePackagePage: (state, data) => {
     state.loading = false
-    console.log(data)
     state.package_page = data;
+  },
+
+  updateSearchKey: (state, key) => {
+    state.search_key = key
   }
 };

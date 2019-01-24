@@ -31,7 +31,7 @@
                   name="packageName"
                   placeholder="Search for your favorite package"
                   type="text"
-                  v-model="$store.state.search_key"
+                  v-model="searchKey"
                   @keyup.enter.prevent="redirectToSearch"
                 >
               </div>
@@ -52,6 +52,11 @@ import userAccount from "@/components/TopBar/userAccount.vue";
 import login from "@/components/TopBar/login.vue";
 
 export default {
+  data: function() {
+    return {
+      searchKey: ""
+    };
+  },
   components: {
     userAccount,
     login
@@ -85,18 +90,23 @@ export default {
       }
 
       const url = `${this.$store.state.api_urls.packages}/?search=${
-        this.$store.state.search_key
+        this.searchKey
       }`;
       this.$axios
         .get(url)
         .then(response => {
           this.packages = response.data.results;
           this.count = response.data.count;
-          this.$store.state.loading = false;
-          this.$store.state.package_page.packages = response.data.results;
-          this.$store.state.package_page.count = response.data.count;
-          this.$store.state.package_page.nextUrl = response.data.next;
-          this.$store.state.package_page.previousUrl = response.data.previous;
+
+          const data = {
+            packages: response.data.results,
+            count: response.data.count,
+            nextUrl: response.data.nextUrl,
+            previousUrl: response.data.previousUrl
+          };
+
+          this.$store.commit("updateSearchKey", this.searchKey);
+          this.$store.commit("updatePackagePage", data);
         })
         .catch(err => {
           console.log(err);
