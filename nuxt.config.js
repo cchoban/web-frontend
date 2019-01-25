@@ -1,5 +1,5 @@
 const pkg = require('./package')
-const baseUrl = process.env.NODE_ENV !== "production" ? '/' : '/packages/'
+const baseUrl = process.env.NODE_ENV !== 'production' ? '/' : '/packages/'
 
 module.exports = {
   mode: 'universal',

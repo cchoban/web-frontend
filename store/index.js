@@ -31,7 +31,7 @@ export const mutations = {
     state.search_key = key
   },
 
-  disableLoading: state => {
+  disableLoading: (state) => {
     state.loading = false
   }
 }
