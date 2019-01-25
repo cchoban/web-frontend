@@ -65,7 +65,11 @@ module.exports = {
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+<<<<<<< HEAD
     baseUrl: 'https://choban.app/api/'
+=======
+    BASE_URL: 'https://choban.app/api/'
+>>>>>>> b3f96a326609960c6e9a5ff9b3605f40529a23eb
   },
 
   /*
