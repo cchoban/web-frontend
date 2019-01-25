@@ -133,7 +133,7 @@ export default {
       httpsAgent: new https.Agent({ rejectUnauthorized: false })
     }
     const { data } = await axios.get(
-      `${store.state.api_urls.packages}/?search=${params.packageName}`,
+      `/?search=${params.packageName}`,
       config
     )
 
