@@ -29,5 +29,9 @@ export const mutations = {
 
   updateSearchKey: (state, key) => {
     state.search_key = key
+  },
+
+  disableLoading: state => {
+    state.loading = false
   }
 }

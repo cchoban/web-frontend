@@ -1,6 +1,6 @@
 <template>
   <div class="ui container">
-    <div v-if="$store.state.loading" class="ui segment loading">
+    <div v-if="$store.state.loading> 0" class="ui segment loading">
       <br>
     </div>
     <div v-else>
@@ -12,6 +12,7 @@
           </tr>
         </thead>
         <tbody>
+          <div v-if="$store.state.package_page.packages">
           <tr v-for="pack in $store.state.package_page.packages">
             <nuxt-link :to="`/${pack.packageName}`" class="removelink">
               <td>
@@ -34,6 +35,14 @@
               </td>
             </nuxt-link>
           </tr>
+          </div>
+          <div v-else>
+            <div class="middle">
+              <div class="ui teal message">
+                Please do a search from top panel!
+              </div>
+            </div>
+          </div>
         </tbody>
       </table>
     </div>
@@ -41,46 +50,16 @@
 </template>
 
 <script>
-import Pagination from '@/components/Packages/Pagination.vue'
+import Pagination from "@/components/Packages/Pagination.vue";
 
 export default {
   components: {
     Pagination
   },
-  data: function () {
-    return {
-      searchKey: this.$store.searh_key
-    }
-  },
   mounted() {
-    this.getPackages()
-  },
-  methods: {
-    getPackages() {
-      const url = `${this.$store.state.api_urls.packages}/?search=${
-        this.searchKey
-      }`
-      this.$axios
-        .get(url)
-        .then((response) => {
-          this.packages = response.data.results
-          this.count = response.data.count
-
-          const data = {
-            packages: response.data.results,
-            count: response.data.count,
-            nextUrl: response.data.nextUrl,
-            previousUrl: response.data.previousUrl
-          }
-
-          this.$store.commit('updatePackagePage', data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
+    this.$store.commit('disableLoading')
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
