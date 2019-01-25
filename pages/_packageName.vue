@@ -104,7 +104,6 @@
 
 <script>
 import CommandLine from '@/components/SinglePage/installCommand.vue'
-import axios from 'axios'
 const https = require('https')
 
 export default {
@@ -127,13 +126,13 @@ export default {
       title: `${this.$capitalize(this.$route.params.packageName)} | Choban `
     }
   },
-  async asyncData({ store, params }) {
+  async asyncData({ store, params, $axios }) {
     // FIXME: Dangerous!
     const config = {
       httpsAgent: new https.Agent({ rejectUnauthorized: false })
     }
-    const { data } = await axios.get(
-      `${store.state.api_urls.packages}/?search=${params.packageName}`,
+    const { data } = await $axios.get(
+      `/?search=${params.packageName}`,
       config
     )
 
