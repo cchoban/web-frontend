@@ -7,19 +7,13 @@
         </div>
 
         <div class="ui content twelve wide column right floated">
-          <label class="ui green label">
-            Download count: {{ pack.download_count }}
+          <label class="ui green label">Download count: {{ pack.download_count }}</label>
+          <label class="ui yellow label">View count: {{ pack.view_count }}</label>
+          <label class="ui gray label">Last update:
+            <timeago :datetime="pack.updated_at"/>
           </label>
-          <label class="ui yellow label">
-            View count: {{ pack.view_count }}
-          </label>
-          <label class="ui gray label">
-            Last update:
-            <timeago :datetime="pack.updated_at" />
-          </label>
-          <label class="ui blue label">
-            Submitted at:
-            <timeago :datetime="pack.created_at" />
+          <label class="ui blue label">Submitted at:
+            <timeago :datetime="pack.created_at"/>
           </label>
 
           <div class="ui segments">
@@ -38,9 +32,7 @@
             <div v-if="pack.category_name" class="ui segment">
               <p>
                 Category:
-                <a :href="category_url(pack.category_name)">
-                  {{ pack.category_name }}
-                </a>
+                <a :href="category_url(pack.category_name)">{{ pack.category_name }}</a>
               </p>
             </div>
             <div
@@ -48,14 +40,12 @@
               class="ui segment"
             >
               <ul>
-                <li v-for="dep in pack.packageArgs.dependencies">
-                  {{ dep }}
-                </li>
+                <li v-for="dep in pack.packageArgs.dependencies">{{ dep }}</li>
               </ul>
             </div>
             <div class="ui segment">
               <p>
-                <CommandLine :packagename="pack.packageName" />
+                <CommandLine :packagename="pack.packageName"/>
               </p>
             </div>
           </div>
@@ -63,21 +53,15 @@
       </div>
 
       <div v-else class="middle">
-        <div class="ui teal message">
-          {{ $route.params.packageName }} was not found on our servers.
-        </div>
+        <div class="ui teal message">{{ $route.params.packageName }} was not found on our servers.</div>
       </div>
 
       <div class="ui twelve wide column left floated">
-        <button class="ui positive button" @click.prevent="showIcerik('install')">
-          Insallation Script
-        </button>
+        <button class="ui positive button" @click.prevent="showIcerik('install')">Insallation Script</button>
         <button
           class="ui danger button"
           @click.prevent="showIcerik('uninstall')"
-        >
-          Uninstallation Script
-        </button>
+        >Uninstallation Script</button>
 
         <div v-if="active == 'install'">
           <pre v-highlightjs>
@@ -97,14 +81,14 @@
       </div>
     </div>
     <div class="ui segment fifteen column row">
-      <vue-disqus :shortname="$store.state.disqus_shortname" :url="url" :identifier="url" />
+      <vue-disqus :shortname="$store.state.disqus_shortname" :url="url" :identifier="url"/>
     </div>
   </div>
 </template>
 
 <script>
-import CommandLine from '@/components/SinglePage/installCommand.vue'
-const https = require('https')
+import CommandLine from "@/components/SinglePage/installCommand.vue";
+const https = require("https");
 
 export default {
   components: {
@@ -113,47 +97,51 @@ export default {
   head() {
     return {
       title: this.title
-    }
+    };
   },
   data() {
     return {
       pack: [],
-      packagename: '',
+      packagename: "",
       loading: true,
       isPage: false,
       active: false,
-      url: '',
+      url: "",
       title: `${this.$capitalize(this.$route.params.packageName)} | Choban `
-    }
+    };
   },
   async asyncData({ store, params, $axios }) {
     // FIXME: Dangerous!
     const config = {
       httpsAgent: new https.Agent({ rejectUnauthorized: false })
-    }
-    const { data } = await $axios.get(
-      `${store.state.api_urls.packages}/?search=${params.packageName}`,
-      config
-    )
+    };
+    try {
+      const { data } = await $axios.get(
+        `${store.state.api_urls.packages}/?search=${params.packageName}`,
+        config
+      );
 
-    return { pack: data.results[0] }
+      return { pack: data.results[0] };
+    } catch (err) {
+      console.log(err)
+    }
   },
   methods: {
     showIcerik(todo) {
       if (this.active == todo) {
-        this.active = false
-        return true
+        this.active = false;
+        return true;
       }
 
-      this.active = todo
+      this.active = todo;
     },
     category_url(category_name) {
       return `/packages/category/${this.$options.filters.slugify(
         category_name
-      )}`
+      )}`;
     }
   }
-}
+};
 </script>
 
 <style scoped>
