@@ -1,9 +1,9 @@
 <template>
   <div class="ui container grid">
     <div class="ui segment fifteen column row">
-      <div v-if="pack">
+      <div v-if="pack.hasOwnProperty('packageArgs')">
         <div class="ui medium three wide image column">
-          <img :src="$store.state.api_urls.home+pack.server.icon" alt>
+          <img :src="$store.state.api_urls.home+pack.server['icon']" alt>
         </div>
 
         <div class="ui content twelve wide column right floated">
@@ -117,7 +117,7 @@ export default {
   },
   data() {
     return {
-      pack: [],
+      pack: {},
       packagename: '',
       loading: true,
       isPage: false,
@@ -126,17 +126,8 @@ export default {
       title: `${this.$capitalize(this.$route.params.packageName)} | Choban `
     }
   },
-  async asyncData({ store, params, $axios }) {
-    // FIXME: Dangerous!
-    const config = {
-      httpsAgent: new https.Agent({ rejectUnauthorized: false })
-    }
-    const { data } = await $axios.get(
-      `${store.state.api_urls.packages}/?search=${params.packageName}`,
-      config
-    )
-
-    return { pack: data.results[0] }
+  mounted() {
+    this.getPackage()
   },
   methods: {
     showIcerik(todo) {
@@ -151,6 +142,22 @@ export default {
       return `/packages/category/${this.$options.filters.slugify(
         category_name
       )}`
+    },
+    async getPackage() {
+      const config = {
+        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+      }
+
+      try {
+        const { data } = await this.$axios.get(
+          `${this.$store.state.api_urls.packages}/?search=${this.$route.params.packageName}`,
+          config
+        )
+
+        this.pack = data.results[0]
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 }
