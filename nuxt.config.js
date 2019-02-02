@@ -65,7 +65,7 @@ module.exports = {
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseUrl: 'https://choban.app/api/'
+    baseUrl: `${process.env.BASE_URL}/api/` || 'https://choban.app/api/'
   },
 
   /*
@@ -89,7 +89,7 @@ module.exports = {
   },
 
   env: {
-    baseUrl: 'https://choban.app',
+    baseUrl: process.env.BASE_URL || 'https://choban.app',
     disqusShortname: 'choban'
   }
 }
