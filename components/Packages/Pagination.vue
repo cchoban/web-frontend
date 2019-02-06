@@ -38,7 +38,7 @@ export default {
 
   computed: {
     countPageNumber() {
-      const totalPageNumber = Math.ceil(this.count / 15)
+      const totalPageNumber = Math.ceil(this.count / 10)
       const pages = {}
       let offset = -10
       let page = 1
@@ -56,8 +56,8 @@ export default {
     this.count = this.$store.state.package_page.count
   },
   methods: {
-    getPackages(url, pageNumber) {
-      this.$axios
+    async getPackages(url, pageNumber) {
+      await this.$axios
         .get(url)
         .then((response) => {
           this.packages = response.data.results
@@ -68,8 +68,8 @@ export default {
           const data = {
             packages: response.data.results,
             count: response.data.count,
-            nextUrl: response.data.nextUrl,
-            previousUrl: response.data.previousUrl
+            nextUrl: response.data.next,
+            previousUrl: response.data.previous
           }
 
           this.$store.commit('updatePackagePage', data)
