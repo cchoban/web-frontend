@@ -77,15 +77,19 @@ export default {
       $('.loginModal').modal('show')
     },
 
-    login() {
+    async login() {
       const data = {
         username: this.username,
         password: this.password
       }
 
-      this.$store
+      if (!this.validated_forms()) {
+        return false
+      }
+
+      await this.$store
         .dispatch('localStorage/auth_login', data)
-        .then(() => {
+        .then((resp) => {
           swal({
             title: 'Logged in!',
             text: 'Successfully logged in! You will be redirecting soon.',
@@ -94,11 +98,11 @@ export default {
             position: 'bottom-end'
           })
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log('Could not login.'))
     },
 
     validated_forms() {
-      if (this.username == null || this.password == null) {
+      if (this.username == '' || this.password == '') {
         swal(
           'Oops!',
           'You have empty field(s). Please fill them if you want to contiune',
@@ -107,6 +111,7 @@ export default {
 
         return false
       }
+
       return true
     }
   }

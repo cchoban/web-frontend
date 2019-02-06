@@ -9,8 +9,8 @@ export const state = () => ({
 })
 
 export const actions = {
-  async auth_login({ commit }, credentials) {
-    new Promise((resolve, reject) => {
+  auth_login({ commit }, credentials) {
+    return new Promise((resolve, reject) => {
       this.$axios
         .post(`${SITE_URL}/api/login/`, credentials)
         .then((resp) => {
@@ -19,13 +19,15 @@ export const actions = {
           state.user = JSON.stringify(resp.data.user)
           this.$axios.setToken(token, 'Token')
           commit('auth_success', resp.data)
-          resolve(resp)
+
+          return resolve(resp)
         })
         .catch((err) => {
           commit('auth_error')
           state.token = undefined
           state.user = undefined
-          reject(err)
+
+          return reject(err)
         })
     })
   },
