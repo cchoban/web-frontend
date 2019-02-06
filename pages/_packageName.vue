@@ -126,8 +126,21 @@ export default {
       title: `${this.$capitalize(this.$route.params.packageName)} | Choban `
     }
   },
-  mounted() {
-    this.getPackage()
+  async asyncData({store, params, $axios}) {
+      const config = {
+        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+      }
+
+      try {
+        const { data } = await $axios.get(
+          `${store.state.api_urls.packages}/?search=${params.packageName}`,
+          config
+        )
+
+        return { pack: data.results[0] }
+      } catch (e) {
+        console.log(e)
+      }
   },
   methods: {
     showIcerik(todo) {
@@ -142,22 +155,6 @@ export default {
       return `/packages/category/${this.$options.filters.slugify(
         category_name
       )}`
-    },
-    async getPackage() {
-      const config = {
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
-      }
-
-      try {
-        const { data } = await this.$axios.get(
-          `${this.$store.state.api_urls.packages}/?search=${this.$route.params.packageName}`,
-          config
-        )
-
-        this.pack = data.results[0]
-      } catch (e) {
-        console.log(e)
-      }
     }
   }
 }
