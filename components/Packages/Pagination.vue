@@ -23,7 +23,7 @@
 
 <script>
 export default {
-  props: ['extraQueries'],
+  props: ['extra_queries'],
   data() {
     return {
       packages: null,
