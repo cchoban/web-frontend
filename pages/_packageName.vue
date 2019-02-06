@@ -112,35 +112,41 @@ export default {
   },
   head() {
     return {
-      title: this.title
+      title: this.title,
+      meta: [
+        { hid: 'og:title', name: 'og:title', content: this.title || '' },
+        { hid: 'twitter:title', name: 'twitter:title', content: this.title || '' },
+        { hid: 'description', name: 'description', content: this.pack.packageArgs.description || '' },
+        { hid: 'og:description', property: 'og:description', content: this.pack.packageArgs.description || '' },
+        { hid: 'twitter:description', name: 'twitter:description', content: this.pack.packageArgs.description || '' },
+        { hid: 'og:url', name: 'og:url', content: this.packageUrl },
+        { hid: 'twitter:url', name: 'twitter:url', content: this.packageUrl }
+      ]
     }
   },
   data() {
     return {
       pack: {},
-      packagename: '',
-      loading: true,
-      isPage: false,
       active: false,
-      url: '',
+      packageUrl: `${process.env.baseUrl}/packages/${this.$route.params.packageName}`,
       title: `${this.$capitalize(this.$route.params.packageName)} | Choban `
     }
   },
-  async asyncData({store, params, $axios}) {
-      const config = {
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
-      }
+  async asyncData({ store, params, $axios }) {
+    const config = {
+      httpsAgent: new https.Agent({ rejectUnauthorized: false })
+    }
 
-      try {
-        const { data } = await $axios.get(
-          `${store.state.api_urls.packages}/?search=${params.packageName}`,
-          config
-        )
+    try {
+      const { data } = await $axios.get(
+        `${store.state.api_urls.packages}/?search=${params.packageName}`,
+        config
+      )
 
-        return { pack: data.results[0] }
-      } catch (e) {
-        console.log(e)
-      }
+      return { pack: data.results[0] }
+    } catch (e) {
+      console.log(e)
+    }
   },
   methods: {
     showIcerik(todo) {

@@ -1,6 +1,9 @@
 const pkg = require('./package')
 const baseUrl = process.env.NODE_ENV !== 'production' ? '/' : '/packages/'
-
+const meta = {
+  title: 'Choban - Software Automation Tool',
+  description: 'Choban is a software automation tool made for Windows platform for easy software installation.'
+}
 module.exports = {
   mode: 'universal',
   router: {
@@ -15,16 +18,16 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Choban is a software automation tool made for Windows platform for easy software installation. ' },
+      { hid: 'description', name: 'description', content: meta.description },
       { property: 'og:type', content: 'website' },
       { property: 'og:site_name', content: 'Choban' },
-      { property: 'og:title', content: 'Choban - Software Automation Tool' },
-      { property: 'og:description', content: 'Choban is a software automation tool made for Windows platform for easy software installation. ' },
-      { property: 'og:url', content: 'https://choban.app/' },
+      { hid: 'og:title', property: 'og:title', content: meta.title },
+      { hid: 'og:description', property: 'og:description', content: meta.description },
+      { hid: 'og:url', property: 'og:url', content: 'https://choban.app/' },
       { name: 'twitter:card', content: 'summary' },
-      { name: 'twitter:title', content: 'Choban - Software Automation Tool' },
-      { name: 'twitter:url', content: 'https://choban.app/' },
-      { name: 'twitter:description', content: 'Choban is a software automation tool made for Windows platform for easy software installation. ' }
+      { hid: 'twitter:title', name: 'twitter:title', content: meta.title },
+      { hid: 'twitter:url', name: 'twitter:url', content: 'https://choban.app/' },
+      { hid: 'twitter:description', name: 'twitter:description', content: meta.description }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
