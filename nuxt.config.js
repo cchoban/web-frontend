@@ -31,7 +31,7 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'canonical', href: 'https://choban.app/', type: 'text/html' }
+      { hid: 'canonical', rel: 'canonical', href: 'https://choban.app/', type: 'text/html' }
     ]
   },
 

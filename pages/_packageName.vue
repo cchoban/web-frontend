@@ -121,6 +121,10 @@ export default {
         { hid: 'twitter:description', name: 'twitter:description', content: this.pack.packageArgs.description || '' },
         { hid: 'og:url', name: 'og:url', content: this.packageUrl },
         { hid: 'twitter:url', name: 'twitter:url', content: this.packageUrl }
+      ],
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { hid: 'canonical', rel: 'canonical', href: this.packageUrl, type: 'text/html' }
       ]
     }
   },
