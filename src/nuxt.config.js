@@ -50,10 +50,12 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    '~plugins/filters.js',
     '~plugins/vue-timeago.js',
     '~plugins/vue-disqus.js',
-    '~plugins/helpers.js'
+    '~plugins/vue-cookie.js',
+    '~plugins/helpers.js',
+    '~plugins/filters.js',
+    '~plugins/storage.js'
   ],
 
   /*
