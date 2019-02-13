@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  web-front:
+    build: .
+    command: npm run dev
+    environment:
+      NODE_ENV: development
+      HOST: 0.0.0.0
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - 3000:3000
