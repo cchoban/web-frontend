@@ -124,8 +124,16 @@ export default {
     }
   },
   mounted() {
-    this.getPopular()
-    this.getRecent()
+    const popularData = this.$storage.get('PackageSection_Popular')
+    const recentData = this.$storage.get('PackageSection_Recent')
+    if (popularData != undefined || recentData != undefined) {
+      this.loading = false
+      this.popularPackages = JSON.parse(popularData)
+      this.recentPackages = JSON.parse(recentData)
+    } else {
+      this.getPopular()
+      this.getRecent()
+    }
   },
   methods: {
     showPage(packageName, packageId) {
@@ -137,6 +145,7 @@ export default {
         .get(url)
         .then((response) => {
           this.popularPackages = response.data.results.slice(0, 5)
+          this.$storage.set('PackageSection_Popular', JSON.stringify(this.popularPackages))
           this.loading = false
         })
         .catch((err) => {
@@ -149,6 +158,7 @@ export default {
         .get(url)
         .then((response) => {
           this.recentPackages = response.data.results.slice(0, 5)
+          this.$storage.set('PackageSection_Recent', JSON.stringify(this.recentPackages))
           this.loading = false
         })
         .catch((err) => {

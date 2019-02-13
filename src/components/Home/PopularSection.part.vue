@@ -124,8 +124,16 @@ export default {
     }
   },
   mounted() {
-    this.getPicked()
-    this.getPopularPicked()
+    const popularData = this.$storage.get('PopularSection_Picked')
+    const recentData = this.$storage.get('PopularSection_PickedPopular')
+    if (popularData != undefined || recentData != undefined) {
+      this.loading = false
+      this.pickedPackages = JSON.parse(popularData)
+      this.pickedPopulars = JSON.parse(recentData)
+    } else {
+      this.getPicked()
+      this.getPopularPicked()
+    }
   },
   methods: {
     showPage(packageName, packageId) {
@@ -141,6 +149,7 @@ export default {
         .get(url)
         .then((response) => {
           this.pickedPackages = response.data.results.slice(0, 5)
+          this.$storage.set('PopularSection_Picked', JSON.stringify(this.pickedPackages))
           this.loading = false
         })
         .catch((err) => {
@@ -153,6 +162,7 @@ export default {
         .get(url)
         .then((response) => {
           this.pickedPopulars = response.data.results.slice(0, 5)
+          this.$storage.set('PopularSection_PickedPopular', JSON.stringify(this.pickedPackages))
           this.loading = false
         })
         .catch((err) => {

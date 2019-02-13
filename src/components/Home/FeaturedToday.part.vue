@@ -41,7 +41,13 @@ export default {
     }
   },
   mounted() {
-    this.getPopular()
+    const featured = this.$storage.get('FeaturedToday')
+    if (featured != undefined) {
+      this.loading = false
+      this.popularPackages = JSON.parse(featured)
+    } else {
+      this.getPopular()
+    }
   },
   methods: {
     category_url(category_name) {
@@ -54,6 +60,7 @@ export default {
         .get(url)
         .then((response) => {
           this.popularPackages = response.data.results.slice(0, 10)
+          this.$storage.set('FeaturedToday', JSON.stringify(this.popularPackages))
           this.loading = false
         })
         .catch((err) => {
