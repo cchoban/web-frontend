@@ -87,18 +87,20 @@ export default {
         return false
       }
 
-      await this.$store
-        .dispatch('localStorage/auth_login', data)
-        .then((resp) => {
-          swal({
-            title: 'Logged in!',
-            text: 'Successfully logged in! You will be redirecting soon.',
-            type: 'success',
-            toast: true,
-            position: 'bottom-end'
+      await this.$auth.loginWith('local', { data: data }).then((resp) => {
+        return this.$successMessage('Logged in!', 'Successfully logged in! You will be redirecting soon.')
+      }).catch((err) => {
+        for (var key in responseData) {
+          const value = responseData[key]
+
+          value.forEach((message) => {
+            if (key === 'non_field_errors') {
+              key = ''
+            }
+            this.$errorMessage(`${this.$capitalize(key)} - ${message}`)
           })
-        })
-        .catch(err => console.log('Could not login.'))
+        }
+      })
     },
 
     validated_forms() {

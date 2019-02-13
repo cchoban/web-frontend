@@ -46,7 +46,7 @@
 export default {
   data() {
     return {
-      user: this.$store.state.localStorage.auth.user
+      user: this.$store.state.auth.user
     }
   },
   methods: {
@@ -63,19 +63,12 @@ export default {
         position: 'bottom-end'
       })
     },
-    logout() {
-      this.$store
-        .dispatch('localStorage/auth_logout')
-        .then(() => {
-          this.message(
-            'Logged out!',
-            'Successfully logged out! See you back!',
-            'success'
-          )
-        })
-        .catch((err) => {
-          this.message('Ooops!', 'Could not logout?', 'error')
-        })
+    async logout() {
+      await this.$auth.logout().then((resp) => {
+        this.$successMessage('Logged out!', 'Successfully logged out! See you soon!')
+      }).catch((err) => {
+        this.$errorMessage('Ooops!', 'Could not logout?')
+      })
     },
     redirect(url) {
       if (url != '') {

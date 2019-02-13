@@ -1,5 +1,6 @@
 const pkg = require('./package')
 const baseUrl = process.env.NODE_ENV !== 'production' ? '/' : '/packages/'
+const apiUrl = process.env.NODE_ENV !== 'production' ? 'https://choban.app/api/' : 'http://localhost:8000'
 const meta = {
   title: 'Choban - Software Automation Tool',
   description: 'Choban is a software automation tool made for Windows platform for easy software installation.'
@@ -61,16 +62,34 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    'nuxt-vuex-localstorage'
+    '@nuxtjs/auth'
   ],
   /*
    ** Axios module configuration
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseUrl: `${process.env.BASE_URL}/api/` || 'https://choban.app/api/'
+    baseURL: apiUrl
   },
-
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: 'login/', method: 'post', propertyName: 'token' },
+          user: { url: 'user/', method: 'get', propertyName: 'user' }
+        },
+        tokenRequired: true,
+        tokenType: 'Token'
+      }
+    },
+    cookie: {
+      prefix: 'auth.',
+      options: {
+        path: '/',
+        secure: true
+      }
+    }
+  },
   /*
    ** Build configuration
    */

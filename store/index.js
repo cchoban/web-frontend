@@ -21,6 +21,9 @@ export const state = () => ({
   disqus_shortname: disqusShortname
 })
 
+export const getters = {
+  isAuthenticated: state => state.auth.loggedIn
+}
 export const mutations = {
   updatePackagePage: (state, data) => {
     state.loading = false

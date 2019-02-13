@@ -39,7 +39,7 @@
               </div>
             </div>
           </div>
-          <login v-if="!$store.getters['localStorage/isAuthenticated']" />
+          <login v-if="!$store.getters.isAuthenticated" />
           <div v-else>
             <userAccount />
           </div>
