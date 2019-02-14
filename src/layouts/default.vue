@@ -12,6 +12,12 @@ import '@/assets/css/main.scss'
 export default {
   components: {
     TopBar
+  },
+  head() {
+    return {
+    titleTemplate: `%s | Choban`
+
+    }
   }
 }
 </script>

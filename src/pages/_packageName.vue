@@ -112,7 +112,7 @@ export default {
   },
   head() {
     return {
-      title: this.title,
+      title: `${this.$capitalize(this.$route.params.packageName)}`,
       meta: [
         { hid: 'og:title', name: 'og:title', content: this.title || '' },
         { hid: 'twitter:title', name: 'twitter:title', content: this.title || '' },
