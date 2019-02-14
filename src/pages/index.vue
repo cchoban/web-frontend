@@ -116,9 +116,9 @@ export default {
   },
 
   methods: {
-    getDiscover: function name() {
+    async getDiscover() {
       const url = this.$store.state.api_urls.packages
-      this.$axios
+      await this.$axios
         .get(url)
         .then((response) => {
           this.packages = response.data

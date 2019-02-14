@@ -54,9 +54,9 @@ export default {
       const slugged = this.$options.filters.slugify(category_name)
       return `/packages/category/${slugged}`
     },
-    getPopular() {
+    async getPopular() {
       const url = `${this.$store.state.api_urls.packages}?ordering=-download_count&showcase=true`
-      this.$axios
+      await this.$axios
         .get(url)
         .then((response) => {
           this.popularPackages = response.data.results.slice(0, 10)

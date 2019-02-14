@@ -139,9 +139,9 @@ export default {
     showPage(packageName, packageId) {
       this.$router.push(`/${packageName}`)
     },
-    getPopular() {
+    async getPopular() {
       const url = `${this.$store.state.api_urls.packages}?ordering=-download_count`
-      this.$axios
+      await this.$axios
         .get(url)
         .then((response) => {
           this.popularPackages = response.data.results.slice(0, 5)
@@ -152,9 +152,9 @@ export default {
           console.log(err)
         })
     },
-    getRecent() {
+    async getRecent() {
       const url = `${this.$store.state.api_urls.packages}?ordering=-created_at`
-      this.$axios
+      await this.$axios
         .get(url)
         .then((response) => {
           this.recentPackages = response.data.results.slice(0, 5)

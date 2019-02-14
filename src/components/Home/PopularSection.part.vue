@@ -143,9 +143,9 @@ export default {
       const slugged = this.$options.filters.slugify(category_name)
       return `/packages/category/${slugged}`
     },
-    getPicked() {
+    async getPicked() {
       const url = `${this.$store.state.api_urls.packages}?showcase=true`
-      this.$axios
+      await this.$axios
         .get(url)
         .then((response) => {
           this.pickedPackages = response.data.results.slice(0, 5)
@@ -156,9 +156,9 @@ export default {
           console.log(err)
         })
     },
-    getPopularPicked() {
+    async getPopularPicked() {
       const url = `${this.$store.state.api_urls.packages}?showcase=true&ordering=-download_count`
-      this.$axios
+      await this.$axios
         .get(url)
         .then((response) => {
           this.pickedPopulars = response.data.results.slice(0, 5)
