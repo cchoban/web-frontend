@@ -110,7 +110,15 @@ export default {
     }
   },
   mounted() {
-    this.getDiscover()
+    const discoverData = this.$storage.get('DiscoverPackages')
+
+    if (discoverData != undefined) {
+      this.loading = false
+      this.discoverPackages = JSON.parse(discoverData)
+    } else {
+      this.getDiscover()
+    }
+
     this.countPageNumber
     $('.root').addClass('index')
   },
@@ -123,6 +131,7 @@ export default {
         .then((response) => {
           this.packages = response.data
           this.discoverPackages = this.shuffleArray(response.data.results)
+          this.$storage.set('DiscoverPackages', JSON.stringify(this.discoverPackages))
           this.count = response.data.count
           this.nextUrl = response.data.next
           this.previousUrl = response.data.previous
