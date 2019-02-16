@@ -1,6 +1,6 @@
 const pkg = require('./package')
 const baseUrl = process.env.NODE_ENV !== 'production' ? '/' : '/packages/'
-const apiUrl = process.env.NODE_ENV !== 'production' ? 'https://choban.app/api/' : 'http://localhost:8000'
+const apiUrl = process.env.NODE_ENV == 'production' ? 'https://choban.app/api/' : 'http://localhost:8000'
 const meta = {
   title: 'Choban - Software Automation Tool',
   description: 'Choban is a software automation tool made for Windows platform for easy software installation.'
