@@ -162,7 +162,7 @@ export default {
         .get(url)
         .then((response) => {
           this.pickedPopulars = response.data.results.slice(0, 5)
-          this.$storage.set('PopularSection_PickedPopular', JSON.stringify(this.pickedPackages))
+          this.$storage.set('PopularSection_PickedPopular', JSON.stringify(this.pickedPopulars))
           this.loading = false
         })
         .catch((err) => {
