@@ -30,7 +30,7 @@
               <p>Description: {{ pack.packageArgs.description }}</p>
             </div>
             <div class="ui segment">
-              <p>Version: {{ pack.version }}</p>
+              <p>Version: {{ pack.packageArgs.version }}</p>
             </div>
             <div class="ui segment">
               <p>Published by: {{ pack.user_name }}</p>
