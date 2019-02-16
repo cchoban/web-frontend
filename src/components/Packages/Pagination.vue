@@ -35,7 +35,6 @@ export default {
       request_url: ''
     }
   },
-
   computed: {
     countPageNumber() {
       const totalPageNumber = Math.ceil(this.count / 10)
@@ -54,11 +53,13 @@ export default {
     this.nextUrl = this.$store.state.package_page.nextUrl
     this.previousUrl = this.$store.state.package_page.previousUrl
     this.count = this.$store.state.package_page.count
+    console.log(this.countPageNumber)
   },
   methods: {
     async getPackages(url, pageNumber) {
+      const modifiedUrl = `${url}&page=${pageNumber}`
       await this.$axios
-        .get(url)
+        .get(modifiedUrl)
         .then((response) => {
           this.packages = response.data.results
           this.count = response.data.count
