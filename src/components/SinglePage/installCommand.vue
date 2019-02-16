@@ -6,8 +6,9 @@
 
 <style lang="scss" scoped>
 .terminal {
-  width: 300px;
-  height: 60px;
+  width: auto;
+  height: auto;
+  min-height: 60px;
   color: #fff;
   background-color: #2a303b;
   border-radius: 5px;
