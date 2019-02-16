@@ -90,16 +90,9 @@ export default {
       await this.$auth.loginWith('local', { data: data }).then((resp) => {
         return this.$successMessage('Logged in!', 'Successfully logged in! You will be redirecting soon.')
       }).catch((err) => {
-        for (var key in responseData) {
-          const value = responseData[key]
-
-          value.forEach((message) => {
-            if (key === 'non_field_errors') {
-              key = ''
-            }
-            this.$errorMessage(`${this.$capitalize(key)} - ${message}`)
-          })
-        }
+        $('.loginModal').modal('hide')
+        console.log(err)
+        return this.$errorMessage('Could not log in!', 'Please double check your authentication details.')
       })
     },
 
