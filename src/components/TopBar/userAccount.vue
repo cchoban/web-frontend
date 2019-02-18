@@ -9,7 +9,7 @@
       </div>
     </div>
 
-    <div class="ui modal accountModal">
+    <ya-modal class="accountModal" v-model="activeModal">
       <i class="close icon" />
       <div class="header">
         Profile Picture
@@ -38,20 +38,31 @@
           <i class="checkmark icon" />
         </div>
       </div>
-    </div>
+    </ya-modal>
   </div>
 </template>
 
 <script>
+import YaModal from "vue-ya-semantic-modal";
+
 export default {
+  components: {
+    YaModal: YaModal()
+  },
   data() {
     return {
-      user: this.$store.state.auth.user
+      user: this.$store.state.auth.user,
+      activeModal: false
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      this.activeModal = false
     }
   },
   methods: {
     showAccountMenu() {
-      $('.accountModal').modal('show')
+      this.activeModal = true
     },
 
     message(title, message, type) {
