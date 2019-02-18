@@ -20,7 +20,8 @@
     "vue-cookie": "^1.1.4",
     "vue-disqus": "^3.0.5",
     "vue-lazyload": "^1.2.6",
-    "vue-timeago": "^5.0.0"
+    "vue-timeago": "^5.0.0",
+    "vue-ya-semantic-modal": "0.0.3"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^0.0.1",
