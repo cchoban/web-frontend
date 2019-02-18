@@ -4,7 +4,7 @@
       <br>
     </div>
     <div v-else>
-      <Pagination extra_queries/>
+      <Pagination extra_queries />
       <table class="ui table">
         <thead>
           <tr>
@@ -36,7 +36,9 @@
           </div>
           <div v-else>
             <div class="middle">
-              <div class="ui teal message">Please do a search from top panel!</div>
+              <div class="ui teal message">
+                Please do a search from top panel!
+              </div>
             </div>
           </div>
         </tbody>
@@ -46,7 +48,7 @@
 </template>
 
 <script>
-import Pagination from "@/components/Packages/Pagination.vue";
+import Pagination from '@/components/Packages/Pagination.vue'
 
 export default {
   components: {
@@ -54,48 +56,48 @@ export default {
   },
   data() {
     return {
-      searchQuery: ""
-    };
+      searchQuery: ''
+    }
   },
   mounted() {
-    this.$store.commit("disableLoading");
+    this.$store.commit('disableLoading')
 
-    const searchQuery = this.$route.query.q;
+    const searchQuery = this.$route.query.q
     if (searchQuery) {
-      this.searchQuery = searchQuery;
-      this.search();
+      this.searchQuery = searchQuery
+      this.search()
     }
 
-    this.$store.dispatch("search/do_search");
+    this.$store.dispatch('search/do_search')
   },
 
   methods: {
     search() {
       const url = `${this.$store.state.api_urls.packages}/?search=${
         this.searchQuery
-      }`;
+      }`
       this.$axios
         .get(url)
-        .then(response => {
-          this.packages = response.data.results;
-          this.count = response.data.count;
+        .then((response) => {
+          this.packages = response.data.results
+          this.count = response.data.count
 
           const data = {
             packages: response.data.results,
             count: response.data.count,
             nextUrl: response.data.nextUrl,
             previousUrl: response.data.previousUrl
-          };
+          }
 
-          this.$store.commit("updateSearchKey", this.searchKey);
-          this.$store.commit("updatePackagePage", data);
+          this.$store.commit('updateSearchKey', this.searchKey)
+          this.$store.commit('updatePackagePage', data)
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

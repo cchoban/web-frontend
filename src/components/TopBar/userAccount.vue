@@ -9,7 +9,7 @@
       </div>
     </div>
 
-    <ya-modal class="accountModal" v-model="activeModal">
+    <ya-modal v-model="activeModal" class="accountModal">
       <i class="close icon" />
       <div class="header">
         Profile Picture
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import YaModal from "vue-ya-semantic-modal";
+import YaModal from 'vue-ya-semantic-modal'
 
 export default {
   components: {
@@ -56,7 +56,7 @@ export default {
     }
   },
   watch: {
-    '$route' (to, from) {
+    '$route'(to, from) {
       this.activeModal = false
     }
   },

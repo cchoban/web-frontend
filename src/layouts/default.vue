@@ -15,7 +15,7 @@ export default {
   },
   head() {
     return {
-    titleTemplate: `%s | Choban`
+      titleTemplate: `%s | Choban`
 
     }
   }

@@ -3,13 +3,15 @@
     <div class="buttons column">
       <div class="bttns menu">
         <a class="ui button loginBtn" @click="showModal">
-          <i class="user circle icon"/>
+          <i class="user circle icon" />
           <span>Login</span>
         </a>
       </div>
     </div>
     <ya-modal v-model="activeModal">
-      <div class="ui header">Login to Choban</div>
+      <div class="ui header">
+        Login to Choban
+      </div>
       <div class="content">
         <form class="ui form">
           <div id="div_id_username" class="field">
@@ -46,10 +48,12 @@
         </form>
       </div>
       <div class="actions">
-        <div class="ui black deny button" @click="activeModal=false">Nope</div>
+        <div class="ui black deny button" @click="activeModal=false">
+          Nope
+        </div>
         <div class="ui positive right labeled icon button" @click="login">
           Yep, that's me. Login
-          <i class="checkmark icon"/>
+          <i class="checkmark icon" />
         </div>
       </div>
     </ya-modal>
@@ -57,7 +61,7 @@
 </template>
 
 <script>
-import YaModal from "vue-ya-semantic-modal";
+import YaModal from 'vue-ya-semantic-modal'
 
 export default {
   components: {
@@ -65,58 +69,58 @@ export default {
   },
   data() {
     return {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
       activeModal: false
-    };
+    }
   },
   methods: {
     showModal() {
-      this.activeModal = true;
+      this.activeModal = true
     },
 
     async login() {
       const data = {
         username: this.username,
         password: this.password
-      };
+      }
 
       if (!this.validated_forms()) {
-        return false;
+        return false
       }
 
       await this.$auth
-        .loginWith("local", { data: data })
-        .then(resp => {
-          this.activeModal = false;
+        .loginWith('local', { data: data })
+        .then((resp) => {
+          this.activeModal = false
           return this.$successMessage(
-            "Logged in!",
-            "Successfully logged in! You will be redirecting soon."
-          );
+            'Logged in!',
+            'Successfully logged in! You will be redirecting soon.'
+          )
         })
-        .catch(err => {
-          this.activeModal = false;
-          console.log(err);
+        .catch((err) => {
+          this.activeModal = false
+          console.log(err)
           return this.$errorMessage(
-            "Could not log in!",
-            "Please double check your authentication details."
-          );
-        });
+            'Could not log in!',
+            'Please double check your authentication details.'
+          )
+        })
     },
 
     validated_forms() {
-      if (this.username == "" || this.password == "") {
+      if (this.username == '' || this.password == '') {
         swal(
-          "Oops!",
-          "You have empty field(s). Please fill them if you want to contiune",
-          "error"
-        );
+          'Oops!',
+          'You have empty field(s). Please fill them if you want to contiune',
+          'error'
+        )
 
-        return false;
+        return false
       }
 
-      return true;
+      return true
     }
   }
-};
+}
 </script>
