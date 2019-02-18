@@ -92,9 +92,9 @@ module.exports = {
       }
     },
     redirect: {
-      login : '/'
+      login: '/',
       register: '/register'
-    },
+    }
   },
   /*
    ** Build configuration
