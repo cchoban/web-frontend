@@ -90,7 +90,11 @@ module.exports = {
         path: '/',
         secure: true
       }
-    }
+    },
+    redirect: {
+      login : '/'
+      register: '/register'
+    },
   },
   /*
    ** Build configuration
