@@ -120,7 +120,7 @@ export default {
     }
 
     this.countPageNumber
-    $('.root').addClass('index')
+    document.querySelector('.root').classList.add('main')
   },
 
   methods: {

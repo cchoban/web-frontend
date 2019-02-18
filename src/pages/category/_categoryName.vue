@@ -97,7 +97,7 @@ export default {
   mounted() {
     this.category_name = this.$route.params.categoryName
     this.grabCategoryId()
-    $('.root').addClass('main')
+    document.querySelector('.root').classList.add('main')
   },
 
   methods: {
