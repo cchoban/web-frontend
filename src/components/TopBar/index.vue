@@ -77,6 +77,11 @@ export default {
     },
 
     refresh() {
+      for (const key in localStorage) {
+        if (!key.startsWith('auth.')) {
+          this.$storage.delete(key)
+        }
+      }
       window.location.reload()
     },
 
