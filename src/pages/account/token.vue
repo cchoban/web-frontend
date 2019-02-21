@@ -1,15 +1,11 @@
 <template>
   <div class="ui container">
     <div class="column">
-      <h4 class="ui top attached header">
-        API 2Key
-      </h4>
+      <h4 class="ui top attached header">API 2Key</h4>
       <div class="ui bottom attached segment">
         <div class="ui info message">
-          <i class="close icon" />
-          <div class="header">
-            Was this what you wanted?
-          </div>
+          <i class="close icon"/>
+          <div class="header">Was this what you wanted?</div>
           <ul class="list">
             <li>Your API key provides you with a token that identifies you to the gallery. Keep this a secret. You can always regenerate your key at any time (invalidating previous keys) if your token is accidentally revealed. The You would pass your token like this:</li>
             <li>
@@ -30,7 +26,10 @@
             style="width: 350px; display:inline-block"
             disabled
           >
-          <span @click="copy_api" v-html="copy_icon" />
+          <button class="ui icon button" @click="copy_api">
+            <i class="ui icon clipboard outline"></i>
+          </button>
+
           <input id="copy-apikey" type="hidden" :value="api_key">
           <br>
           <br>
@@ -43,86 +42,104 @@
 
 <script>
 export default {
-  middleware: 'auth',
+  middleware: "auth",
   data() {
     return {
-      api_key: '',
-      copy_icon: ''
-    }
+      api_key: ""
+    };
   },
   mounted() {
-    this.get_key()
+    this.get_key();
   },
   methods: {
     get_key() {
-      const url = `${this.$store.state.api_urls.home}/api/token/`
+      const url = `${this.$store.state.api_urls.home}/token/`;
       this.$axios
         .get(url)
-        .then((response) => {
-          this.api_key = response.data.key
+        .then(response => {
+          this.api_key = response.data.key;
         })
-        .catch((err) => {
-          console.log(err)
-        })
+        .catch(err => {
+          console.log(err);
+        });
     },
 
-    generate_token() {
-      const url = `${this.$store.state.api_urls.home}/api/token/`
-
-      this.$axios
-        .post(url)
-        .then((response) => {
-          if (response.data.status == false) {
-            this.$errorMessage('Oops!', response.data.message)
-          } else {
-            this.api_key = response.data.key
-            this.$store
-              .dispatch('token_generate', response.data.key)
-              .then((resp) => {
-                this.$successMessage('Yess!', response.data.message)
-              })
-              .catch((err) => {
-                this.$errorMessage('Oops!', err)
-              })
-          }
+    async generate_token() {
+      await this.$store
+        .dispatch("token/generate")
+        .then(resp => {
+          this.api_key = resp.key;
+          this.$successMessage("Yess!", resp.message);
         })
-        .catch((err) => {
-          const responseData = err.response.data
-          if (responseData.detail) {
+        .catch(err => {
+          if (err.detail) {
             if (
-              responseData.detail ===
-              'You do not have permission to perform this action.'
+              err.detail ===
+              "You do not have permission to perform this action."
             ) {
               return this.$errorMessage(
-                'You reached your daily limit, please try again tomorrow.'
-              )
+                "You reached your daily limit, please try again tomorrow."
+              );
             }
 
-            return ths.$errorMessage(responseData.detail)
+            return this.$errorMessage(err.detail);
           }
+        });
 
-          console.log(err)
-        })
+      // this.$axios
+      //   .post(url)
+      //   .then((response) => {
+      //     if (response.data.status == false) {
+      //       this.$errorMessage('Oops!', response.data.message)
+      //     } else {
+      //       this.api_key = response.data.key
+      //       this.$store
+      //         .dispatch('token_generate', response.data.key)
+      //         .then((resp) => {
+      //           this.$successMessage('Yess!', response.data.message)
+      //         })
+      //         .catch((err) => {
+      //           this.$errorMessage('Oops!', err)
+      //         })
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     const responseData = err.response.data
+      //     if (responseData.detail) {
+      //       if (
+      //         responseData.detail ===
+      //         'You do not have permission to perform this action.'
+      //       ) {
+      //         return this.$errorMessage(
+      //           'You reached your daily limit, please try again tomorrow.'
+      //         )
+      //       }
+
+      //       return ths.$errorMessage(responseData.detail)
+      //     }
+
+      //     console.log(err)
+      //   })
     },
     copy_api() {
-      const apikey = document.querySelector('#copy-apikey')
-      apikey.setAttribute('type', 'text')
-      apikey.select()
+      const apikey = document.querySelector("#copy-apikey");
+      apikey.setAttribute("type", "text");
+      apikey.select();
 
       try {
-        const successful = document.execCommand('copy')
-        const msg = successful ? 'successful' : 'unsuccessful'
-        this.$successMessage('Success!', `Api key was copied ${msg}`)
+        const successful = document.execCommand("copy");
+        const msg = successful ? "successful" : "unsuccessful";
+        this.$successMessage("Success!", `Api key was copied ${msg}`);
       } catch (err) {
-        console.log(err)
-        alert('Oops, unable to copy')
+        console.log(err);
+        alert("Oops, unable to copy");
       }
 
-      apikey.setAttribute('type', 'hidden')
-      window.getSelection().removeAllRanges()
+      apikey.setAttribute("type", "hidden");
+      window.getSelection().removeAllRanges();
     }
   }
-}
+};
 </script>
 
 <style>
